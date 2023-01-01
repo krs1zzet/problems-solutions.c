@@ -1,24 +1,27 @@
-//sınırlar
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 int main(){
-	int i,j,M,N,X,a,b,snake=1,frame[100][100],dir,game=0;
+	int i,j,M,N,X,a,b,snake=1,frame[100][100],game=0;
+    char dir;
 	srand(time(NULL));
 	printf("N satir M sutun X yem giriniz\n");
 	scanf("%d",&N);
 	scanf("%d",&M);
 	scanf("%d",&X);
+
+
+
 	//fonk 0
 	for(i=0;i<N;i++){
 		for(j=0;j<M;j++){
 			frame[N][M]=0;
 		}
 	}
-	//BAŞLANGIC OYUN MASASI
 	int x=N/2, y= M/2;
-	//yılan
-	frame[x][y]=1;
+
+	frame[x][y]=1;// SORUN
+
 	//yemler---------------------
 	for(i=0;i<X;i++){
 		a=rand()%N;
@@ -27,48 +30,17 @@ int main(){
 		frame[a][b]=-1;
 		}
 	}
-	//TABLO
-	for(i=0;i<M+2;i++){
-		printf("#");
-	}
-	printf("\n");
-	for(i=0;i<N;i++){
-		printf("#");
-		for(j=0;j<M+2;j++){
-			if(frame[i][j]==0){
-				printf(" ");}
-			if(frame[i][j]==-1){//yem yazdırması
-				printf("0");			
-			}
-			if(frame[i][j]==1){
-				printf("%d",snake);//başlangıç yılan
-			}
-			if(j==M-1){
-				printf("#");
-			}
-		}
-		printf("\n");
-	}
-	for(i=0;i<M+2;i++){
-		printf("#");
-        }
-    printf("\nyon giriniz(W,A,S,D)");
-    	scanf("%s",&dir);
-    	if(65<=dir&&dir<=90){
-    		dir+=32;
-		}
-	if(dir=='w'){
-		x--;
-		frame[x][y]=1;
-	}
+	
 //***********************************************
 
 	//TABLO
 	while(game==0){
+
 	for(i=0;i<M+2;i++){
 		printf("#");
 	}
 	printf("\n");
+
 	for(i=0;i<N;i++){
 		printf("#");
 		for(j=0;j<M+2;j++){
@@ -178,7 +150,7 @@ int main(){
 	
 	
 	
-	/*oyun masası boş
+	10oyun masası boş
 	for(i=0;i<M+M+2;i++){
 		printf("#");
 	}
@@ -245,5 +217,6 @@ int main(){
 	
 return 0;
 }
+
 
 

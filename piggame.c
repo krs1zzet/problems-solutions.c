@@ -1,92 +1,117 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-int dice,tempScore,humanTotalScore,computerTotalScore,game=0;
+#include <curses.h>
+#include <unistd.h>
+
+
+int dice,tempScore,humanTotalScore,computerTotalScore,game=0,totalScore;
 int cont;
 
-void humanTurn(int,int,int);
-void computerTurn(int,int,int);
-void rollDice(int);
-void check(int,int,int);
-void isGameEnd(int,int);
-void isEndTour(int,int,int);
-void ask(int);
+void humanTurn();
+void computerTurn();
+void rollDice();
+void check();
+void isGameEnd();
+void isEndTour();
+void ask();
 
 // 100 puana ulaşan olmadığı sürece oyun bitmiyor
 
 int main(){
     while(game==0){
         humanTurn(cont,tempScore,dice);
-        //computerTurn(dice,tempScore,cont);
-        isGameEnd(humanTotalScore,computerTotalScore);
+        if(game==1){
+            break;
+        }
+        computerTurn(dice,tempScore,cont);
+       //isGameEnd(humanTotalScore,computerTotalScore);
     }
     return 0;
 }
 // zar atılıyor, kontrol ediliyor , soruluyor, tur bittiyse puana bakılıyor 
 
-void humanTurn(int cont,int tempScore,int dice){
-    printf("human turn\n");
+void humanTurn(){
+    printf("********************human turn*******************\n");
+    totalScore=0;
+    totalScore=humanTotalScore;
     tempScore=0;
     cont=1;
+    ask(cont);
     while(cont==1){
     rollDice(dice);
     check(tempScore,cont,dice);
+    isEndTour(cont,tempScore,humanTotalScore);
+    if(cont!=0){
     ask(cont);
     isEndTour(cont,tempScore,humanTotalScore);
+    humanTotalScore=totalScore;
     }
+    }
+    printf("human total score %d\n",humanTotalScore);
+    if(humanTotalScore>=100){
+        printf("human wins with %d points\n",humanTotalScore);
+        game=1;
+    }
+
 }
 //bilgisayar zar atıyor kontrol edilitor geçici skoru 20 nin üzerinde değilse devam ediyor
-void computerTurn(int dice,int tempScore,int cont){
-    printf("computer turn\n");
+void computerTurn(){
+    printf("*************computer turn***********************\n");
+    totalScore=0;
+    totalScore=computerTotalScore;
     cont=1;
     tempScore=0;
     while(cont==1){
     rollDice(dice);
+    sleep(1);
     check(tempScore,cont,dice);
     if(tempScore>=20){
         cont=0;
     }
     isEndTour(cont,tempScore,humanTotalScore);
+    computerTotalScore=totalScore;
     }
+    printf("computer total score %d\n",computerTotalScore);
+    if(computerTotalScore>=100){
+        printf("human wins with %d points\n",humanTotalScore);
+        game=1;
+    }
+
 }
 //zar at ve yazdır
-void rollDice(int dice){
+void rollDice(){
     srand(time(NULL));
     dice=rand()%6+1;
     printf("you rolled %d\n",dice);
 }
 //1 geldiyse turu bitir gelmediyse geçici skora zarı ekle
-void check(int tempScore,int cont,int dice){
-    printf("zarın degeri %d\n",dice);
+void check(){
     if(dice==1){
-    printf("aaaaaaaaa\n");
         cont=0;
         printf("rolled %d and you lost your %d points\n",dice,tempScore);
         tempScore=0;
     }
     else{
-        printf("bbbbbbbbb\n");
         tempScore+=dice;
     }
 }
 
-void ask(int cont){
-    printf("zar atmak istiyorsanız r atmak istemiyorsanız h ye basınız\n");
+void ask(){
+    printf("zar atmak istiyorsanız 1 atmak istemiyorsanız 0 ye basınız\n");
     scanf("%d",&cont);
 }
 
-void isEndTour(int cont,int tempScore,int humanTotalScore){
-    if(cont=='h'){
+void isEndTour(){
+    if(cont==0){
         if(tempScore>=20){
-        humanTotalScore+=tempScore;
-        }
-        else{
-            printf("you couldn't earn any point this tour and your totalScore is %d\n",computerTotalScore);
+        totalScore+=tempScore;
+        printf("%d\n",totalScore);
         }
     }
 }
 
-void isGameEnd(int humanTotalScore,int computerTotalScore){
+void isGameEnd(){
     if(humanTotalScore>=100){
         printf("human wins with %d points\n",humanTotalScore);
         game=1;
@@ -96,7 +121,6 @@ void isGameEnd(int humanTotalScore,int computerTotalScore){
         game=1;
     }
     else{
-        printf("next turn\n");
         game=0;
     }
 

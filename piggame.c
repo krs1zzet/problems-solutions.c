@@ -21,10 +21,13 @@ void ask();
 int main(){
     while(game==0){
         humanTurn(cont,tempScore,dice);
+        system("clear");
         if(game==1){
             break;
         }
         computerTurn(dice,tempScore,cont);
+         system("clear");
+
        //isGameEnd(humanTotalScore,computerTotalScore);
     }
     return 0;
@@ -49,6 +52,7 @@ void humanTurn(){
     }
     }
     printf("human total score %d\n",humanTotalScore);
+    sleep(2);
     if(humanTotalScore>=100){
         printf("human wins with %d points\n",humanTotalScore);
         game=1;
@@ -73,6 +77,7 @@ void computerTurn(){
     computerTotalScore=totalScore;
     }
     printf("computer total score %d\n",computerTotalScore);
+    sleep(2);
     if(computerTotalScore>=100){
         printf("human wins with %d points\n",humanTotalScore);
         game=1;
@@ -111,18 +116,7 @@ void isEndTour(){
     }
 }
 
-void isGameEnd(){
-    if(humanTotalScore>=100){
-        printf("human wins with %d points\n",humanTotalScore);
-        game=1;
-    }
-    else if(computerTotalScore>=100){
-        printf("computer wins with %d points\n",computerTotalScore);
-        game=1;
-    }
-    else{
-        game=0;
-    }
+
 
 
 

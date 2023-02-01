@@ -19,6 +19,7 @@ void ask();
 // 100 puana ulaşan olmadığı sürece oyun bitmiyor
 
 int main(){
+    srand(time(NULL));
     while(game==0){
         humanTurn(cont,tempScore,dice);
         system("clear");
@@ -86,7 +87,6 @@ void computerTurn(){
 }
 //zar at ve yazdır
 void rollDice(){
-    srand(time(NULL));
     dice=rand()%6+1;
     printf("you rolled %d\n",dice);
 }
@@ -116,7 +116,18 @@ void isEndTour(){
     }
 }
 
-
+void isGameEnd(){
+    if(humanTotalScore>=100){
+        printf("human wins with %d points\n",humanTotalScore);
+        game=1;
+    }
+    else if(computerTotalScore>=100){
+        printf("computer wins with %d points\n",computerTotalScore);
+        game=1;
+    }
+    else{
+        game=0;
+    }
 
 
 
